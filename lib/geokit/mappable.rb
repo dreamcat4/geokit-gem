@@ -318,7 +318,7 @@ module Geokit
 
     # Location attributes.  Full address is a concatenation of all values.  For example:
     # 100 Spear St, San Francisco, CA, 94101, US
-    attr_accessor :street_address, :city, :state, :zip, :country_code, :full_address, :all
+    attr_accessor :ip_address, :isp_detail, :street_address, :city, :state, :zip, :country_code, :full_address, :all
     # Attributes set upon return from geocoding.  Success will be true for successful
     # geocode lookups.  The provider will be set to the name of the providing geocoder.
     # Finally, precision is an indicator of the accuracy of the geocoding.
@@ -332,7 +332,8 @@ module Geokit
     # Constructor expects a hash of symbols to correspond with attributes.
     def initialize(h={})
       @all = [self]
-      
+      @ip_address=h[:ip_address]
+      @isp_detail=h[:isp_detail]
       @street_address=h[:street_address] 
       @city=h[:city] 
       @state=h[:state] 
@@ -374,7 +375,7 @@ module Geokit
     # gives you all the important fields as key-value pairs
     def hash
       res={}
-      [:success,:lat,:lng,:country_code,:city,:state,:zip,:street_address,:provider,:full_address,:is_us?,:ll,:precision].each { |s| res[s] = self.send(s.to_s) }
+      [:success,:lat,:lng,:country_code,:city,:state,:zip,:street_address,:ip_address,:provider,:isp_detail,:full_address,:is_us?,:ll,:precision].each { |s| res[s] = self.send(s.to_s) }
       res
     end
     alias to_hash hash
@@ -403,7 +404,7 @@ module Geokit
 
     # Returns a string representation of the instance.
     def to_s
-      "Provider: #{provider}\nStreet: #{street_address}\nCity: #{city}\nState: #{state}\nZip: #{zip}\nLatitude: #{lat}\nLongitude: #{lng}\nCountry: #{country_code}\nSuccess: #{success}"
+      "IP Address: #{ip_address}\nProvider: #{provider}\nISP Detail: #{isp_detail}\nStreet: #{street_address}\nCity: #{city}\nState: #{state}\nZip: #{zip}\nLatitude: #{lat}\nLongitude: #{lng}\nCountry: #{country_code}\nSuccess: #{success}"
     end
   end
   
